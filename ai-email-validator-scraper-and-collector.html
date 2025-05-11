@@ -2,109 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Email Validator & Collector</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Email Scraper & Sender</title>
   <style>
     body {
+      background-color: #e6f0ff;
       font-family: Arial, sans-serif;
-      background: #ffffff;
-      color: #333;
-      padding: 1rem;
-    }
-    h1 {
-      text-align: center;
-      color: #007bff;
-      margin-bottom: 1rem;
-    }
-    .container {
-      max-width: 600px;
-      margin: auto;
-      background: #f9f9f9;
-      padding: 1.5rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    .form-group {
-      margin-bottom: 1rem;
-    }
-    .form-group label {
-      font-weight: bold;
-      margin-bottom: 0.5rem;
-      display: block;
-    }
-    input[type="file"], textarea, button {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      background-color: #007bff;
-      color: #fff;
-      font-size: 1rem;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #005fcc;
-    }
-    .results {
-      margin-top: 1rem;
-    }
-    .results ul {
-      list-style: none;
+      margin: 0;
       padding: 0;
     }
-    .results li {
-      background: #e6f0ff;
-      margin-bottom: 5px;
-      padding: 0.5rem;
-      border-left: 4px solid #007bff;
+
+    .container {
+      max-width: 650px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
-    @media (max-width: 480px) {
-      .container { padding: 1rem; }
+
+    h2 {
+      text-align: center;
+      color: #007bff;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      color: #333;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 15px;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      margin-top: 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .results, .output {
+      margin-top: 15px;
+      background: #f0f8ff;
+      padding: 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      white-space: pre-wrap;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 15px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Email Validator & Collector</h1>
   <div class="container">
-    <div class="form-group">
-      <label for="textInput">Paste Text or HTML Code</label>
-      <textarea id="textInput" rows="6" placeholder="Paste content here..."></textarea>
-    </div>
-    <div class="form-group">
-      <button onclick="extractEmails()">Extract & Validate Emails</button>
-    </div>
-    <div class="results">
-      <h3>Valid Emails Found:</h3>
-      <ul id="emailList"></ul>
-    </div>
+    <h2>Email Scraper, Validator & Sender</h2>
+
+    <label for="inputText">Paste Text/HTML to Extract Emails:</label>
+    <textarea id="inputText" rows="6" placeholder="Paste website code or raw text here..."></textarea>
+
+    <button onclick="extractEmails()">Extract & Validate</button>
+
+    <div class="results" id="emailOutput"></div>
+
+    <label for="subject">Email Subject:</label>
+    <input type="text" id="subject" placeholder="Enter subject"/>
+
+    <label for="message">Email Message:</label>
+    <textarea id="message" rows="5" placeholder="Enter email message"></textarea>
+
+    <button onclick="sendEmails()">Send Emails</button>
+
+    <div class="output" id="sendStatus"></div>
   </div>
 
   <script>
+    let extractedEmails = [];
+
     function extractEmails() {
-      const text = document.getElementById("textInput").value;
-      const emailList = document.getElementById("emailList");
-      emailList.innerHTML = "";
+      const input = document.getElementById("inputText").value;
+      const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}/gi;
+      const matches = input.match(emailRegex) || [];
 
-      const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
-      const matches = text.match(emailRegex);
+      // Remove duplicates
+      extractedEmails = [...new Set(matches)];
 
-      const uniqueEmails = [...new Set(matches || [])];
+      const output = extractedEmails.length
+        ? `Found ${extractedEmails.length} valid email(s):\n` + extractedEmails.join("\n")
+        : "No valid emails found.";
 
-      uniqueEmails.forEach(email => {
-        if (validateEmail(email)) {
-          const li = document.createElement("li");
-          li.textContent = email;
-          emailList.appendChild(li);
-        }
-      });
+      document.getElementById("emailOutput").textContent = output;
     }
 
-    function validateEmail(email) {
-      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return pattern.test(email);
+    async function sendEmails() {
+      const subject = document.getElementById("subject").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const statusDiv = document.getElementById("sendStatus");
+
+      if (extractedEmails.length === 0) {
+        return statusDiv.textContent = "No emails to send to.";
+      }
+
+      if (!subject || !message) {
+        return statusDiv.textContent = "Please enter both subject and message.";
+      }
+
+      statusDiv.textContent = "Sending emails...";
+
+      try {
+        const response = await fetch('/send-bulk-email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            recipients: extractedEmails,
+            subject,
+            message
+          })
+        });
+
+        const text = await response.text();
+        statusDiv.textContent = text;
+      } catch (error) {
+        statusDiv.textContent = "Error sending emails.";
+      }
     }
   </script>
 </body>
