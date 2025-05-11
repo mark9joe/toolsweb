@@ -1,12 +1,12 @@
 {
-  "name": "email-tool",
+  "name": "bulk-email-tool",
   "version": "1.0.0",
-  "description": "SMTP Email Sender Tool for Web",
+  "description": "Bulk SMTP Email Sender for a Multi-Tool Website",
   "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },
-  "keywords": ["email", "smtp", "nodemailer", "tool"],
+  "keywords": ["bulk", "email", "smtp", "nodemailer", "express"],
   "author": "Your Name",
   "license": "MIT",
   "dependencies": {
