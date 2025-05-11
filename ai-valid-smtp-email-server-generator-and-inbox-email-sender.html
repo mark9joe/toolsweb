@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Email Sender Tool</title>
+  <title>Bulk Email Sender Tool</title>
   <style>
     body {
       background-color: #e6f0ff;
@@ -13,7 +13,7 @@
     }
 
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: 40px auto;
       background-color: #ffffff;
       padding: 20px;
@@ -22,8 +22,8 @@
     }
 
     h2 {
-      color: #007bff;
       text-align: center;
+      color: #007bff;
     }
 
     label {
@@ -73,18 +73,18 @@
 </head>
 <body>
   <div class="container">
-    <h2>Send Email</h2>
+    <h2>Bulk Email Sender</h2>
     <form id="emailForm">
-      <label for="to">To:</label>
-      <input type="email" id="to" name="to" required />
+      <label for="recipients">Recipients (separate multiple emails with commas):</label>
+      <input type="text" id="recipients" name="recipients" placeholder="example1@mail.com, example2@mail.com" required />
 
       <label for="subject">Subject:</label>
-      <input type="text" id="subject" name="subject" required />
+      <input type="text" id="subject" name="subject" placeholder="Enter email subject" required />
 
       <label for="message">Message:</label>
-      <textarea id="message" name="message" rows="6" required></textarea>
+      <textarea id="message" name="message" rows="6" placeholder="Your message here..." required></textarea>
 
-      <button type="submit">Send Email</button>
+      <button type="submit">Send Emails</button>
     </form>
 
     <div class="result" id="result"></div>
@@ -93,20 +93,33 @@
   <script>
     document.getElementById('emailForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-      const to = document.getElementById('to').value;
+
+      // Collect values from form
+      const recipientsStr = document.getElementById('recipients').value;
+      // Split on commas and remove extra whitespace:
+      const recipients = recipientsStr.split(',')
+                             .map(email => email.trim())
+                             .filter(email => email.length > 0);
+
       const subject = document.getElementById('subject').value;
       const message = document.getElementById('message').value;
 
-      const response = await fetch('/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ to, subject, message })
-      });
+      document.getElementById('result').textContent = 'Sending emails...';
 
-      const resultText = await response.text();
-      document.getElementById('result').textContent = resultText;
+      try {
+        const response = await fetch('/send-bulk-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ recipients, subject, message })
+        });
+
+        const resultText = await response.text();
+        document.getElementById('result').textContent = resultText;
+      } catch (error) {
+        document.getElementById('result').textContent = 'An error occurred while sending emails.';
+      }
     });
   </script>
 </body>
