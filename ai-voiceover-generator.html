@@ -7,17 +7,17 @@
   <style>
     body {
       margin: 0;
+      background: #e6f0ff;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #e6f0ff;
     }
 
     .container {
       max-width: 600px;
       margin: 40px auto;
+      background: white;
       padding: 25px;
-      background-color: #ffffff;
       border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
 
     h2 {
@@ -28,7 +28,7 @@
     label {
       margin-top: 15px;
       display: block;
-      font-weight: bold;
+      font-weight: 600;
       color: #333;
     }
 
@@ -64,8 +64,8 @@
 
     a {
       display: block;
-      margin-top: 10px;
       text-align: center;
+      margin-top: 10px;
       color: #007bff;
       text-decoration: underline;
     }
@@ -82,75 +82,75 @@
 
   <div class="container">
     <h2>AI Voice Over Generator</h2>
-    <label for="text">Enter Text</label>
-    <textarea id="text" rows="5" placeholder="Type your voiceover..."></textarea>
 
-    <label for="voice">Choose Voice</label>
+    <label for="text">Enter Text:</label>
+    <textarea id="text" rows="5" placeholder="Type your voiceover here..."></textarea>
+
+    <label for="voice">Choose Person (Voice):</label>
     <select id="voice"></select>
 
-    <button onclick="generateVoice()">Generate Voice & Download</button>
+    <button onclick="generateVoice()">Generate & Download</button>
 
     <audio id="audio" controls style="display:none;"></audio>
     <a id="downloadLink" download="voiceover.wav" style="display:none;">Download Voiceover</a>
   </div>
 
   <script>
-    const synth = window.speechSynthesis;
     const voiceSelect = document.getElementById('voice');
+    const synth = window.speechSynthesis;
 
-    function populateVoices() {
+    function loadVoices() {
       const voices = synth.getVoices();
       voiceSelect.innerHTML = '';
-      voices.forEach((voice, i) => {
+      voices.forEach((voice, index) => {
         const option = document.createElement('option');
-        option.value = i;
-        option.textContent = `${voice.name} (${voice.lang}) ${voice.default ? '(Default)' : ''}`;
+        option.value = index;
+        option.textContent = `${voice.name} (${voice.lang})`;
         voiceSelect.appendChild(option);
       });
     }
 
     if (speechSynthesis.onvoiceschanged !== undefined) {
-      speechSynthesis.onvoiceschanged = populateVoices;
+      speechSynthesis.onvoiceschanged = loadVoices;
     }
 
     async function generateVoice() {
       const text = document.getElementById('text').value;
-      const selectedVoiceIndex = voiceSelect.value;
-      const voices = synth.getVoices();
+      const selectedVoice = synth.getVoices()[voiceSelect.value];
 
       if (!text.trim()) {
         alert("Please enter some text.");
         return;
       }
 
-      // Request mic access
+      // Get mic stream to allow recording
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const mediaRecorder = new MediaRecorder(stream);
       const chunks = [];
 
-      mediaRecorder.ondataavailable = e => chunks.push(e.data);
+      mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
       mediaRecorder.onstop = () => {
         const blob = new Blob(chunks, { type: 'audio/wav' });
         const audioURL = URL.createObjectURL(blob);
-
         const audio = document.getElementById('audio');
-        const link = document.getElementById('downloadLink');
+        const downloadLink = document.getElementById('downloadLink');
+
         audio.src = audioURL;
         audio.style.display = 'block';
-        link.href = audioURL;
-        link.style.display = 'block';
+
+        downloadLink.href = audioURL;
+        downloadLink.style.display = 'block';
       };
 
       const utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = voices[selectedVoiceIndex];
-
-      // Start recording and speaking
-      mediaRecorder.start();
+      utterance.voice = selectedVoice;
       utterance.onend = () => mediaRecorder.stop();
+
+      mediaRecorder.start();
       synth.speak(utterance);
     }
 
-    window.onload = populateVoices;
+    window.onload = loadVoices;
   </script>
 
 </body>
