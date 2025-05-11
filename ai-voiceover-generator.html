@@ -3,60 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Voice & Email Tool</title>
+  <title>AI Voiceover Generator</title>
   <style>
     body {
+      background: #e6f2ff;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background: #f0faff;
-      font-family: Arial, sans-serif;
-      color: #333;
+      padding: 0;
     }
     .container {
       max-width: 600px;
-      margin: 20px auto;
-      background: white;
-      padding: 20px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 24px;
       border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
     }
     h2 {
-      color: #007bff;
       text-align: center;
+      color: #007bff;
     }
     label {
-      font-weight: 600;
-      margin-top: 15px;
+      font-weight: bold;
       display: block;
+      margin-top: 16px;
+      color: #333;
     }
-    textarea, input, select {
+    textarea, select, input {
       width: 100%;
-      padding: 10px;
-      margin-top: 6px;
+      padding: 12px;
+      margin-top: 8px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 16px;
     }
     button {
-      background: #007bff;
-      color: white;
-      border: none;
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin-top: 15px;
       width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background-color: #007bff;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
     }
     button:hover {
-      background: #0056b3;
+      background-color: #0056b3;
     }
     audio {
-      margin-top: 10px;
+      margin-top: 20px;
       width: 100%;
     }
-    .result {
-      margin-top: 10px;
+    a.download-link {
+      display: block;
       text-align: center;
+      margin-top: 10px;
+      color: #007bff;
+      text-decoration: underline;
+    }
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 20px;
+        padding: 16px;
+      }
     }
   </style>
 </head>
@@ -64,73 +74,59 @@
 
   <div class="container">
     <h2>AI Voiceover Generator</h2>
-    <label for="voiceText">Text to Convert:</label>
-    <textarea id="voiceText" rows="4" placeholder="Enter text for voiceover..."></textarea>
+
+    <label for="voiceText">Enter Text:</label>
+    <textarea id="voiceText" rows="4" placeholder="Type text to convert to voice..."></textarea>
 
     <label for="voiceSelect">Select Voice:</label>
     <select id="voiceSelect">
-      <option value="voice1">Voice 1 (Custom)</option>
-      <option value="voice2">Voice 2</option>
+      <option value="emma">Emma – Friendly Female</option>
+      <option value="liam">Liam – Deep Male</option>
+      <option value="sophia">Sophia – Calm Narrator</option>
+      <option value="jack">Jack – Energetic Presenter</option>
+      <option value="custom1">Custom AI Voice 1</option>
     </select>
 
-    <button onclick="generateVoice()">Generate Voiceover</button>
+    <button onclick="generateVoice()">Generate & Download Voiceover</button>
 
     <audio id="audio" controls style="display: none;"></audio>
-    <a id="downloadLink" download="voice.mp3" style="display: none;">Download Voiceover</a>
-  </div>
-
-  <div class="container">
-    <h2>Email Sender</h2>
-    <label for="toEmail">To Email:</label>
-    <input type="email" id="toEmail" placeholder="example@example.com" required />
-
-    <label for="subject">Subject:</label>
-    <input type="text" id="subject" placeholder="Email subject..." />
-
-    <label for="emailMessage">Message:</label>
-    <textarea id="emailMessage" rows="4" placeholder="Your message..."></textarea>
-
-    <button onclick="sendEmail()">Send Email</button>
-    <div id="emailStatus" class="result"></div>
+    <a id="downloadLink" class="download-link" download="voiceover.mp3" style="display: none;">Download Voiceover</a>
   </div>
 
   <script>
     async function generateVoice() {
-      const text = document.getElementById('voiceText').value;
+      const text = document.getElementById('voiceText').value.trim();
       const voice = document.getElementById('voiceSelect').value;
+      const audioElement = document.getElementById('audio');
+      const downloadLink = document.getElementById('downloadLink');
 
-      const res = await fetch('/api/voice', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, voice })
-      });
+      if (!text) {
+        alert("Please enter some text.");
+        return;
+      }
 
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
+      try {
+        const res = await fetch('/api/voice', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text, voice })
+        });
 
-      const audio = document.getElementById('audio');
-      audio.src = url;
-      audio.style.display = 'block';
+        if (!res.ok) throw new Error('Failed to generate voice.');
 
-      const link = document.getElementById('downloadLink');
-      link.href = url;
-      link.style.display = 'block';
-    }
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
 
-    async function sendEmail() {
-      const email = document.getElementById('toEmail').value;
-      const subject = document.getElementById('subject').value;
-      const message = document.getElementById('emailMessage').value;
-      const resultBox = document.getElementById('emailStatus');
+        audioElement.src = url;
+        audioElement.style.display = 'block';
 
-      const res = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ to: email, subject, message })
-      });
+        downloadLink.href = url;
+        downloadLink.style.display = 'block';
 
-      const result = await res.json();
-      resultBox.innerText = result.success ? "Email sent successfully!" : "Failed to send email.";
+      } catch (err) {
+        alert('Error generating voiceover. Please try again.');
+        console.error(err);
+      }
     }
   </script>
 
