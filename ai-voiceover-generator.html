@@ -40,6 +40,7 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 16px;
+      box-sizing: border-box;
     }
 
     button {
@@ -68,6 +69,13 @@
       margin-top: 15px;
     }
 
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      color: #007bff;
+      text-decoration: underline;
+    }
+
     @media screen and (max-width: 600px) {
       .container {
         margin: 15px;
@@ -80,54 +88,80 @@
   <div class="container">
     <h2>AI Voice Over Generator</h2>
 
-    <label for="text">Enter your script:</label>
-    <textarea id="text" rows="5" placeholder="Type your voiceover text..."></textarea>
+    <label for="text">Enter Text:</label>
+    <textarea id="text" rows="4" placeholder="Type your voiceover here..."></textarea>
 
-    <button onclick="generateVoice()">Generate & Download Voiceover</button>
+    <label for="voice">Select Voice:</label>
+    <select id="voice"></select>
+
+    <button onclick="speakText()">Generate & Download</button>
 
     <div class="result" id="resultBox">
-      <audio id="audio" controls style="display:none;"></audio>
-      <a id="downloadLink" style="display:none; margin-top: 10px;" download="voiceover.mp3">Download Voiceover</a>
+      <audio id="audio" controls style="display: none;"></audio>
+      <a id="downloadLink" download="voiceover.wav" style="display: none;">Download Voiceover</a>
     </div>
   </div>
 
   <script>
-    async function generateVoice() {
+    const voiceSelect = document.getElementById('voice');
+    const synth = window.speechSynthesis;
+
+    function populateVoices() {
+      const voices = synth.getVoices();
+      voiceSelect.innerHTML = '';
+      voices.forEach((voice, i) => {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = populateVoices;
+    }
+
+    async function speakText() {
       const text = document.getElementById('text').value;
-      const audio = document.getElementById('audio');
-      const link = document.getElementById('downloadLink');
-      const resultBox = document.getElementById('resultBox');
+      const voiceIndex = voiceSelect.value;
+      const voices = synth.getVoices();
 
       if (!text.trim()) {
-        resultBox.innerHTML = '<p style="color:red;">Please enter some text.</p>';
+        alert('Please enter some text.');
         return;
       }
 
-      resultBox.innerHTML = '<p>Generating voiceover...</p>';
+      // Recorder setup
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const mediaRecorder = new MediaRecorder(stream);
+      const chunks = [];
 
-      const response = await fetch('/api/voice', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text })
-      });
+      mediaRecorder.ondataavailable = e => chunks.push(e.data);
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunks, { type: 'audio/wav' });
+        const audioURL = URL.createObjectURL(blob);
+        const audio = document.getElementById('audio');
+        const downloadLink = document.getElementById('downloadLink');
 
-      if (!response.ok) {
-        resultBox.innerHTML = '<p style="color:red;">Failed to generate voiceover.</p>';
-        return;
-      }
+        audio.src = audioURL;
+        audio.style.display = 'block';
 
-      const blob = await response.blob();
-      const audioURL = URL.createObjectURL(blob);
+        downloadLink.href = audioURL;
+        downloadLink.style.display = 'inline-block';
+      };
 
-      audio.src = audioURL;
-      audio.style.display = 'block';
-      link.href = audioURL;
-      link.style.display = 'inline-block';
+      mediaRecorder.start();
 
-      resultBox.innerHTML = '';
-      resultBox.appendChild(audio);
-      resultBox.appendChild(link);
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.voice = voices[voiceIndex];
+      utterance.onend = () => {
+        mediaRecorder.stop();
+      };
+
+      synth.speak(utterance);
     }
+
+    window.onload = populateVoices;
   </script>
 </body>
 </html>
