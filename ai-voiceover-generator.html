@@ -40,7 +40,6 @@
       border-radius: 6px;
       border: 1px solid #ccc;
       font-size: 16px;
-      box-sizing: border-box;
     }
 
     button {
@@ -66,7 +65,7 @@
 
     audio {
       width: 100%;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
     @media screen and (max-width: 600px) {
@@ -81,58 +80,53 @@
   <div class="container">
     <h2>AI Voice Over Generator</h2>
 
-    <label for="voiceText">Enter Text for Voiceover:</label>
-    <textarea id="voiceText" rows="4" placeholder="Type your script here..."></textarea>
+    <label for="text">Enter your script:</label>
+    <textarea id="text" rows="5" placeholder="Type your voiceover text..."></textarea>
 
-    <label for="voiceSelect">Choose Voice:</label>
-    <select id="voiceSelect"></select>
-
-    <button onclick="generateVoice()">Generate Voice</button>
+    <button onclick="generateVoice()">Generate & Download Voiceover</button>
 
     <div class="result" id="resultBox">
-      <audio id="audioPlayer" controls style="display: none;"></audio>
+      <audio id="audio" controls style="display:none;"></audio>
+      <a id="downloadLink" style="display:none; margin-top: 10px;" download="voiceover.mp3">Download Voiceover</a>
     </div>
   </div>
 
   <script>
-    const synth = window.speechSynthesis;
-    const voiceSelect = document.getElementById("voiceSelect");
-
-    function populateVoices() {
-      const voices = synth.getVoices();
-      voiceSelect.innerHTML = '';
-      voices.forEach((voice, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.textContent = `${voice.name} (${voice.lang})`;
-        voiceSelect.appendChild(option);
-      });
-    }
-
-    populateVoices();
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-      speechSynthesis.onvoiceschanged = populateVoices;
-    }
-
-    function generateVoice() {
-      const text = document.getElementById("voiceText").value;
-      const selectedVoiceIndex = voiceSelect.value;
-      const voices = synth.getVoices();
-      const resultBox = document.getElementById("resultBox");
-      const audioPlayer = document.getElementById("audioPlayer");
+    async function generateVoice() {
+      const text = document.getElementById('text').value;
+      const audio = document.getElementById('audio');
+      const link = document.getElementById('downloadLink');
+      const resultBox = document.getElementById('resultBox');
 
       if (!text.trim()) {
         resultBox.innerHTML = '<p style="color:red;">Please enter some text.</p>';
         return;
       }
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = voices[selectedVoiceIndex];
+      resultBox.innerHTML = '<p>Generating voiceover...</p>';
 
-      synth.speak(utterance);
+      const response = await fetch('/api/voice', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
 
-      // Optional visual feedback
-      resultBox.innerHTML = `<p>Speaking: "${text}"</p>`;
+      if (!response.ok) {
+        resultBox.innerHTML = '<p style="color:red;">Failed to generate voiceover.</p>';
+        return;
+      }
+
+      const blob = await response.blob();
+      const audioURL = URL.createObjectURL(blob);
+
+      audio.src = audioURL;
+      audio.style.display = 'block';
+      link.href = audioURL;
+      link.style.display = 'inline-block';
+
+      resultBox.innerHTML = '';
+      resultBox.appendChild(audio);
+      resultBox.appendChild(link);
     }
   </script>
 </body>
