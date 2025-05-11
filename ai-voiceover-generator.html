@@ -29,13 +29,14 @@
       margin-top: 16px;
       color: #333;
     }
-    textarea, select, input {
+    textarea, select {
       width: 100%;
       padding: 12px;
       margin-top: 8px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 16px;
+      box-sizing: border-box;
     }
     button {
       width: 100%;
@@ -54,9 +55,10 @@
     audio {
       margin-top: 20px;
       width: 100%;
+      display: none;
     }
     a.download-link {
-      display: block;
+      display: none;
       text-align: center;
       margin-top: 10px;
       color: #007bff;
@@ -84,50 +86,37 @@
       <option value="liam">Liam – Deep Male</option>
       <option value="sophia">Sophia – Calm Narrator</option>
       <option value="jack">Jack – Energetic Presenter</option>
-      <option value="custom1">Custom AI Voice 1</option>
     </select>
 
-    <button onclick="generateVoice()">Generate & Download Voiceover</button>
+    <button id="generateBtn">Generate & Download Voiceover</button>
 
-    <audio id="audio" controls style="display: none;"></audio>
-    <a id="downloadLink" class="download-link" download="voiceover.mp3" style="display: none;">Download Voiceover</a>
+    <audio id="audio" controls></audio>
+    <a id="downloadLink" class="download-link" download="voiceover.mp3">Download Voiceover</a>
   </div>
 
   <script>
-    async function generateVoice() {
+    const generateBtn = document.getElementById('generateBtn');
+    const audio = document.getElementById('audio');
+    const downloadLink = document.getElementById('downloadLink');
+
+    generateBtn.addEventListener('click', () => {
       const text = document.getElementById('voiceText').value.trim();
       const voice = document.getElementById('voiceSelect').value;
-      const audioElement = document.getElementById('audio');
-      const downloadLink = document.getElementById('downloadLink');
 
       if (!text) {
         alert("Please enter some text.");
         return;
       }
 
-      try {
-        const res = await fetch('/api/voice', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text, voice })
-        });
+      // Simulate audio generation
+      const dummyAudioURL = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
-        if (!res.ok) throw new Error('Failed to generate voice.');
+      audio.src = dummyAudioURL;
+      audio.style.display = 'block';
 
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-
-        audioElement.src = url;
-        audioElement.style.display = 'block';
-
-        downloadLink.href = url;
-        downloadLink.style.display = 'block';
-
-      } catch (err) {
-        alert('Error generating voiceover. Please try again.');
-        console.error(err);
-      }
-    }
+      downloadLink.href = dummyAudioURL;
+      downloadLink.style.display = 'block';
+    });
   </script>
 
 </body>
