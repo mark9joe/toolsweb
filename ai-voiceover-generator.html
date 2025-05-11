@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Voice Over Generator</title>
+  <style>
+    body {
+      background-color: #e6f0ff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #007bff;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 25px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 15px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>AI Voice Over Generator</h2>
+
+    <label for="voiceText">Enter Text for Voiceover:</label>
+    <textarea id="voiceText" rows="4" placeholder="Type your script here..."></textarea>
+
+    <label for="voiceSelect">Choose Voice:</label>
+    <select id="voiceSelect"></select>
+
+    <button onclick="generateVoice()">Generate Voice</button>
+
+    <div class="result" id="resultBox">
+      <audio id="audioPlayer" controls style="display: none;"></audio>
+    </div>
+  </div>
+
+  <script>
+    const synth = window.speechSynthesis;
+    const voiceSelect = document.getElementById("voiceSelect");
+
+    function populateVoices() {
+      const voices = synth.getVoices();
+      voiceSelect.innerHTML = '';
+      voices.forEach((voice, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = `${voice.name} (${voice.lang})`;
+        voiceSelect.appendChild(option);
+      });
+    }
+
+    populateVoices();
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = populateVoices;
+    }
+
+    function generateVoice() {
+      const text = document.getElementById("voiceText").value;
+      const selectedVoiceIndex = voiceSelect.value;
+      const voices = synth.getVoices();
+      const resultBox = document.getElementById("resultBox");
+      const audioPlayer = document.getElementById("audioPlayer");
+
+      if (!text.trim()) {
+        resultBox.innerHTML = '<p style="color:red;">Please enter some text.</p>';
+        return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.voice = voices[selectedVoiceIndex];
+
+      synth.speak(utterance);
+
+      // Optional visual feedback
+      resultBox.innerHTML = `<p>Speaking: "${text}"</p>`;
+    }
+  </script>
+</body>
+</html>
