@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Image Generator</title>
+  <style>
+    body {
+      background-color: #e6f0ff;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #007bff;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 25px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .result img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        margin: 15px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>AI Image Generator</h2>
+
+    <label for="prompt">Describe Your Image:</label>
+    <textarea id="prompt" rows="4" placeholder="e.g., A futuristic city with flying cars at sunset..."></textarea>
+
+    <label for="size">Select Image Size:</label>
+    <select id="size">
+      <option value="256x256">256 x 256</option>
+      <option value="512x512" selected>512 x 512</option>
+      <option value="1024x1024">1024 x 1024</option>
+    </select>
+
+    <button onclick="generateImage()">Generate Image</button>
+
+    <div class="result" id="resultBox"></div>
+  </div>
+
+  <script>
+    async function generateImage() {
+      const prompt = document.getElementById('prompt').value;
+      const size = document.getElementById('size').value;
+      const resultBox = document.getElementById('resultBox');
+
+      if (!prompt.trim()) {
+        return resultBox.innerHTML = '<p style="color:red;">Please enter a prompt.</p>';
+      }
+
+      resultBox.innerHTML = '<p>Generating image...</p>';
+
+      try {
+        const response = await fetch('/generate-image', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, size })
+        });
+
+        const data = await response.json();
+        if (data.url) {
+          resultBox.innerHTML = `<img src="${data.url}" alt="Generated Image" />`;
+        } else {
+          resultBox.innerHTML = `<p style="color:red;">${data.error || 'Error generating image.'}</p>`;
+        }
+      } catch (err) {
+        resultBox.innerHTML = '<p style="color:red;">Server error. Please try again later.</p>';
+      }
+    }
+  </script>
+</body>
+</html>
