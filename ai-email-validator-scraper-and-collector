@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Email Validator & Collector</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      color: #333;
+      padding: 1rem;
+    }
+    h1 {
+      text-align: center;
+      color: #007bff;
+      margin-bottom: 1rem;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    input[type="file"], textarea, button {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #007bff;
+      color: #fff;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fcc;
+    }
+    .results {
+      margin-top: 1rem;
+    }
+    .results ul {
+      list-style: none;
+      padding: 0;
+    }
+    .results li {
+      background: #e6f0ff;
+      margin-bottom: 5px;
+      padding: 0.5rem;
+      border-left: 4px solid #007bff;
+    }
+    @media (max-width: 480px) {
+      .container { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Email Validator & Collector</h1>
+  <div class="container">
+    <div class="form-group">
+      <label for="textInput">Paste Text or HTML Code</label>
+      <textarea id="textInput" rows="6" placeholder="Paste content here..."></textarea>
+    </div>
+    <div class="form-group">
+      <button onclick="extractEmails()">Extract & Validate Emails</button>
+    </div>
+    <div class="results">
+      <h3>Valid Emails Found:</h3>
+      <ul id="emailList"></ul>
+    </div>
+  </div>
+
+  <script>
+    function extractEmails() {
+      const text = document.getElementById("textInput").value;
+      const emailList = document.getElementById("emailList");
+      emailList.innerHTML = "";
+
+      const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+      const matches = text.match(emailRegex);
+
+      const uniqueEmails = [...new Set(matches || [])];
+
+      uniqueEmails.forEach(email => {
+        if (validateEmail(email)) {
+          const li = document.createElement("li");
+          li.textContent = email;
+          emailList.appendChild(li);
+        }
+      });
+    }
+
+    function validateEmail(email) {
+      const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return pattern.test(email);
+    }
+  </script>
+</body>
+</html>
