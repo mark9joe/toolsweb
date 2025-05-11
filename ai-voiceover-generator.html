@@ -3,155 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AI Voice Over Generator</title>
+  <title>Custom AI Voiceover Tool</title>
   <style>
     body {
-      margin: 0;
-      background: #e6f0ff;
+      background: #f0f8ff;
       font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
     }
-
     .container {
       max-width: 600px;
-      margin: 40px auto;
+      margin: 50px auto;
+      padding: 20px;
       background: white;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     h2 {
       text-align: center;
       color: #007bff;
     }
-
-    label {
-      margin-top: 15px;
-      display: block;
-      font-weight: 600;
-      color: #333;
-    }
-
     textarea, select {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin-top: 10px;
-      border-radius: 6px;
       border: 1px solid #ccc;
-      font-size: 16px;
+      border-radius: 5px;
     }
-
     button {
       width: 100%;
-      padding: 14px;
-      margin-top: 25px;
+      padding: 12px;
+      margin-top: 20px;
       background-color: #007bff;
       color: white;
       border: none;
+      border-radius: 5px;
       font-size: 16px;
-      border-radius: 6px;
       cursor: pointer;
     }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
     audio {
-      width: 100%;
       margin-top: 20px;
+      width: 100%;
     }
-
     a {
       display: block;
       text-align: center;
       margin-top: 10px;
-      color: #007bff;
       text-decoration: underline;
-    }
-
-    @media (max-width: 600px) {
-      .container {
-        margin: 20px;
-        padding: 20px;
-      }
+      color: #007bff;
     }
   </style>
 </head>
 <body>
-
   <div class="container">
-    <h2>AI Voice Over Generator</h2>
-
-    <label for="text">Enter Text:</label>
-    <textarea id="text" rows="5" placeholder="Type your voiceover here..."></textarea>
-
-    <label for="voice">Choose Person (Voice):</label>
-    <select id="voice"></select>
-
+    <h2>Generate Voiceover</h2>
+    <textarea id="text" rows="5" placeholder="Enter text for voiceover..."></textarea>
+    <select id="voice">
+      <option value="uniqueVoice1">Unique Voice 1 (Custom)</option>
+    </select>
     <button onclick="generateVoice()">Generate & Download</button>
-
-    <audio id="audio" controls style="display:none;"></audio>
-    <a id="downloadLink" download="voiceover.wav" style="display:none;">Download Voiceover</a>
+    <audio id="audio" controls style="display: none;"></audio>
+    <a id="downloadLink" style="display: none;" download="voiceover.wav">Download Voiceover</a>
   </div>
 
   <script>
-    const voiceSelect = document.getElementById('voice');
-    const synth = window.speechSynthesis;
-
-    function loadVoices() {
-      const voices = synth.getVoices();
-      voiceSelect.innerHTML = '';
-      voices.forEach((voice, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = `${voice.name} (${voice.lang})`;
-        voiceSelect.appendChild(option);
-      });
-    }
-
-    if (speechSynthesis.onvoiceschanged !== undefined) {
-      speechSynthesis.onvoiceschanged = loadVoices;
-    }
-
     async function generateVoice() {
       const text = document.getElementById('text').value;
-      const selectedVoice = synth.getVoices()[voiceSelect.value];
+      const voice = document.getElementById('voice').value;
 
-      if (!text.trim()) {
-        alert("Please enter some text.");
+      const response = await fetch('/api/custom-tts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text, voice })
+      });
+
+      if (!response.ok) {
+        alert("Error generating voice. Check server.");
         return;
       }
 
-      // Get mic stream to allow recording
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
-      const chunks = [];
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
 
-      mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: 'audio/wav' });
-        const audioURL = URL.createObjectURL(blob);
-        const audio = document.getElementById('audio');
-        const downloadLink = document.getElementById('downloadLink');
+      const audio = document.getElementById('audio');
+      audio.src = url;
+      audio.style.display = 'block';
 
-        audio.src = audioURL;
-        audio.style.display = 'block';
-
-        downloadLink.href = audioURL;
-        downloadLink.style.display = 'block';
-      };
-
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = selectedVoice;
-      utterance.onend = () => mediaRecorder.stop();
-
-      mediaRecorder.start();
-      synth.speak(utterance);
+      const link = document.getElementById('downloadLink');
+      link.href = url;
+      link.style.display = 'block';
     }
-
-    window.onload = loadVoices;
   </script>
-
 </body>
 </html>
