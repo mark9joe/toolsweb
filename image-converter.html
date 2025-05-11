@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Converter Tool</title>
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background-color: #ffffff; color: #333; padding: 1rem; }
+    h1 { text-align: center; margin-bottom: 1rem; color: #007bff; }
+
+    /* Container */
+    .container { max-width: 500px; margin: 0 auto; background: #f9f9f9; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+    /* Form elements */
+    .form-group { margin-bottom: 1rem; display: flex; flex-direction: column; }
+    .form-group label { margin-bottom: 0.5rem; font-weight: bold; }
+    .form-group input,
+    .form-group select,
+    .form-group button,
+    .form-group input[type=range] { padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; width: 100%; }
+
+    /* Buttons */
+    .btn { background-color: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer; padding: 0.75rem; font-size: 1rem; }
+    .btn:disabled { background-color: #a0caff; cursor: not-allowed; }
+
+    /* Preview */
+    .preview { text-align: center; margin-top: 1rem; }
+    .preview img { max-width: 100%; height: auto; border: 1px solid #ddd; border-radius: 4px; }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container { padding: 1rem; }
+      .btn { padding: 0.5rem; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Image Converter</h1>
+  <div class="container">
+    <div class="form-group">
+      <label for="imageInput">Choose Image</label>
+      <input type="file" id="imageInput" accept="image/*">
+    </div>
+    <div class="form-group">
+      <label for="formatSelect">Convert To</label>
+      <select id="formatSelect">
+        <option value="image/jpeg">JPEG</option>
+        <option value="image/png">PNG</option>
+        <option value="image/webp">WEBP</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="qualityRange">Quality (for JPEG/WEBP)</label>
+      <input type="range" id="qualityRange" min="0.1" max="1" step="0.1" value="0.8">
+    </div>
+    <div class="form-group">
+      <button id="convertBtn" class="btn" disabled>Convert & Download</button>
+    </div>
+    <div class="preview" id="previewContainer" style="display:none;">
+      <p>Preview:</p>
+      <img id="previewImage" src="#" alt="Preview">
+    </div>
+  </div>
+
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const formatSelect = document.getElementById('formatSelect');
+    const qualityRange = document.getElementById('qualityRange');
+    const convertBtn = document.getElementById('convertBtn');
+    const previewContainer = document.getElementById('previewContainer');
+    const previewImage = document.getElementById('previewImage');
+    let originalImage = new Image();
+
+    imageInput.addEventListener('change', () => {
+      const file = imageInput.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        originalImage.src = e.target.result;
+        originalImage.onload = () => {
+          previewImage.src = originalImage.src;
+          previewContainer.style.display = 'block';
+          convertBtn.disabled = false;
+        };
+      };
+      reader.readAsDataURL(file);
+    });
+
+    convertBtn.addEventListener('click', () => {
+      const format = formatSelect.value;
+      const quality = parseFloat(qualityRange.value);
+
+      const canvas = document.createElement('canvas');
+      canvas.width = originalImage.width;
+      canvas.height = originalImage.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(originalImage, 0, 0);
+
+      canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        const ext = format.split('/')[1];
+        link.download = `converted_image.${ext}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }, format, quality);
+    });
+  </script>
+</body>
+</html>
