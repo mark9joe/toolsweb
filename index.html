@@ -1,1037 +1,410 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" itemscope itemtype="http://schema.org/Book">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tools Hub - Your Daily Tools, All in One Place</title>
-    <!-- In a real project, link Font Awesome here -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> -->
+    <title>The Empyrean #3 by Rebecca Yarros | Epic Fantasy eBook</title>
+    <meta name="description" content="Buy The Empyrean #3 by Rebecca Yarros - The thrilling fantasy novel featuring dragons, rebellion & adventure.">
+    
+    <!-- Payhip Embed Script -->
+    <script type="text/javascript" src="https://payhip.com/payhip.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        :root {
-            --primary-blue: #007BFF;
-            --accent-blue-light: #5CADFF;
-            --accent-blue-dark: #0056B3;
-            --background-white: #FFFFFF;
-            --background-light-gray: #F8F9FA;
-            --text-dark: #212529;
-            --text-muted: #6C757D;
-            --border-light: #DEE2E6;
-            --shadow-soft: 0 4px 15px rgba(0, 0, 0, 0.07);
-            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        .gradient-bg {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .testimonial-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #4f46e5;
         }
-
-        body {
-            font-family: var(--font-family);
-            line-height: 1.6;
-            color: var(--text-dark);
-            background-color: var(--background-white);
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,0.1), transparent);
         }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
+        .payhip-button {
+            transition: all 0.3s ease;
         }
-
-        a {
-            text-decoration: none;
-            color: var(--primary-blue);
-        }
-
-        a:hover {
-            color: var(--accent-blue-dark);
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-        }
-
-        /* --- Top Header --- */
-        .top-header {
-            background-color: var(--background-white);
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-light);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .top-header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.8em;
-            font-weight: 600; /* Slightly bold */
-            color: var(--primary-blue);
-        }
-
-        .main-nav ul {
-            list-style: none;
-            display: flex;
-        }
-
-        .main-nav ul li {
-            margin-left: 25px;
-        }
-
-        .main-nav ul li a {
-            color: var(--text-dark);
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .main-nav ul li a:hover,
-        .main-nav ul li a.active {
-            color: var(--primary-blue);
-        }
-
-        .header-contact-email {
-            font-size: 0.9em;
-            color: var(--text-muted);
-            display: none; /* Hidden on desktop, shown on mobile if needed or integrated differently */
-        }
-        
-        .desktop-contact-email {
-            font-size: 0.9em;
-            color: var(--text-muted);
-            margin-left: 30px; /* Spacing from nav */
-        }
-
-
-        .mobile-menu-toggle {
-            display: none; /* Hidden on desktop */
-            font-size: 1.8em;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-dark);
-        }
-
-        /* --- Hero Section --- */
-        .hero-section {
-            background-color: var(--background-light-gray);
-            padding: 80px 0;
-            text-align: center;
-        }
-
-        .hero-section h1 {
-            font-size: 2.8em;
-            color: var(--text-dark);
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .hero-section .subheadline {
-            font-size: 1.2em;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto 30px auto;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background-color: var(--primary-blue);
-            color: var(--background-white);
-            padding: 12px 30px;
-            font-size: 1.1em;
-            font-weight: 500;
-            border-radius: 25px; /* Rounded button */
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .cta-button:hover {
-            background-color: var(--accent-blue-dark);
-            color: var(--background-white);
+        .payhip-button:hover {
             transform: translateY(-2px);
         }
-
-        .hero-illustrations {
-            margin-top: 40px;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
+        .testimonial-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #4f46e5;
         }
-
-        .hero-illustration-item {
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4f46e5;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transition: all 0.3s ease;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            color: var(--text-muted);
-            font-size: 0.9em;
+            transform: translateY(100px);
+            opacity: 0;
         }
-
-        .hero-illustration-item .icon-placeholder {
-            font-size: 2.5em; /* Placeholder for actual icon */
-            margin-bottom: 8px;
-            color: var(--primary-blue);
+        .floating-cta.visible {
+            transform: translateY(0);
+            opacity: 1;
         }
-
-        /* --- Search Bar --- */
-        .search-section {
-            padding: 40px 0;
-            background-color: var(--background-white);
+        .floating-cta:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
         }
-
-        .search-bar-container {
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
+        .floating-cta i {
+            margin-right: 8px;
+            font-size: 1.2rem;
         }
-
-        .search-bar-container input[type="search"] {
-            width: 100%;
-            padding: 15px 20px;
-            padding-left: 50px; /* Space for icon */
-            font-size: 1.1em;
-            border: 1px solid var(--border-light);
-            border-radius: 30px; /* Rounded search bar */
-            outline: none;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-        .search-bar-container input[type="search"]:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-        }
-        .search-bar-container .search-icon { /* Placeholder for search icon */
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.3em;
-            color: var(--text-muted);
-        }
-
-
-        /* --- Tool Sections --- */
-        .tool-category-section {
-            padding: 60px 0;
-        }
-        .tool-category-section:nth-child(even) { /* Alternating background for sections */
-             background-color: var(--background-light-gray);
-        }
-
-
-        .section-heading {
-            font-size: 2.2em;
-            font-weight: 600;
-            margin-bottom: 10px;
-            text-align: center;
-            color: var(--text-dark);
-        }
-
-        .section-subheading {
-            font-size: 1.1em;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
-
-        .tool-card {
-            background-color: var(--background-white);
-            border: 1px solid var(--border-light);
-            border-radius: 12px; /* Rounded corners */
-            padding: 25px;
-            text-align: center;
-            box-shadow: var(--shadow-soft);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .tool-card .tool-icon { /* Placeholder for tool icon */
-            font-size: 2.5em;
-            color: var(--primary-blue);
-            margin-bottom: 15px;
-            display: block; /* If using <i> or <span> for icons */
-        }
-
-        .tool-card h3 {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-        }
-
-        .tool-card p {
-            font-size: 0.9em;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            min-height: 2.7em; /* Ensure consistent height for 1-2 lines */
-        }
-
-        .tool-card .btn-use-tool {
-            display: inline-block;
-            background-color: var(--primary-blue);
-            color: var(--background-white);
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-            border: 1px solid transparent;
-        }
-
-        .tool-card .btn-use-tool:hover {
-            background-color: var(--accent-blue-dark);
-            color: var(--background-white);
-        }
-        
-        /* Blue accented highlights for buttons is already done by primary blue */
-
-        /* --- Footer --- */
-        .main-footer {
-            background-color: var(--text-dark);
-            color: var(--background-light-gray);
-            padding: 50px 0;
-            text-align: center;
-        }
-
-        .main-footer .logo {
-            color: var(--background-white); /* Footer logo white */
-            margin-bottom: 10px;
-        }
-        .footer-tagline {
-            font-size: 1em;
-            color: var(--text-muted); /* Lighter text on dark bg */
-            margin-bottom: 20px;
-        }
-        .footer-contact-email {
-            margin-bottom: 20px;
-        }
-        .footer-contact-email a {
-            color: var(--accent-blue-light);
-        }
-        .footer-contact-email a:hover {
-            color: var(--background-white);
-        }
-
-        .footer-quick-links ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .footer-quick-links li {
-            display: inline-block;
-            margin: 0 10px;
-        }
-        .footer-quick-links li a {
-            color: var(--text-muted);
-            font-size: 0.9em;
-        }
-        .footer-quick-links li a:hover {
-            color: var(--background-white);
-        }
-
-
-        /* --- Mobile Responsiveness --- */
-        @media (max-width: 992px) {
-            .main-nav {
-                display: none; /* Hide desktop nav */
-                flex-direction: column;
-                width: 100%;
-                background-color: var(--background-white);
-                position: absolute;
-                top: 65px; /* Adjust based on header height */
-                left: 0;
-                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-                padding: 10px 0;
-            }
-            .main-nav.active {
-                display: flex; /* Show when active */
-            }
-            .main-nav ul {
-                flex-direction: column;
-                width: 100%;
-            }
-            .main-nav ul li {
-                margin: 10px 0;
-                text-align: center;
-            }
-            .main-nav ul li a {
-                 display: block;
-                 padding: 10px;
-            }
-            .desktop-contact-email {
-                display: none; /* Hide desktop contact email */
-            }
-            .header-contact-email {
-                 display: block; /* Show mobile version if needed */
-                 text-align: center;
-                 margin-top: 10px;
-                 padding: 10px;
-                 border-top: 1px solid var(--border-light);
-            }
-            .mobile-menu-toggle {
-                display: block; /* Show hamburger */
-            }
-
-            .hero-section h1 {
-                font-size: 2.2em;
-            }
-            .hero-section .subheadline {
-                font-size: 1.1em;
-            }
-            .hero-illustrations {
-                gap: 15px;
-            }
-             .hero-illustration-item .icon-placeholder {
-                font-size: 2em;
-            }
-
-            .tools-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Slightly smaller cards on tablet */
-            }
-        }
-
         @media (max-width: 768px) {
-             .top-header .container {
-                flex-wrap: wrap; /* Allow logo and toggle to be on one line, nav below */
-            }
-            .logo {
-                font-size: 1.6em;
-            }
-            .hero-section h1 {
-                font-size: 2em;
-            }
-            .hero-section .subheadline {
-                font-size: 1em;
-            }
-            .tools-grid {
-                grid-template-columns: 1fr; /* Single column for cards */
-            }
-            .tool-card p {
-                min-height: auto; /* No need for min-height on single column */
-            }
-            .section-heading {
-                font-size: 1.8em;
-            }
-            .section-subheading {
-                font-size: 1em;
+            .floating-cta {
+                bottom: 10px;
+                right: 10px;
+                padding: 12px 18px;
+                font-size: 0.9rem;
             }
         }
-
-         @media (max-width: 480px) {
-            .container {
-                width: 95%;
-            }
-            .hero-section {
-                padding: 50px 0;
-            }
-            .hero-section h1 {
-                font-size: 1.8em;
-            }
-             .hero-section .subheadline {
-                font-size: 0.9em;
-            }
-            .cta-button {
-                padding: 10px 25px;
-                font-size: 1em;
-            }
-            .search-bar-container input[type="search"] {
-                font-size: 1em;
-                padding: 12px 15px;
-                padding-left: 40px;
-            }
-            .search-bar-container .search-icon {
-                font-size: 1.1em;
-                left: 12px;
-            }
-         }
+        .feature-icon {
+            color: #4f46e5;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .dragon-icon {
+            font-size: 3rem;
+            color: #4f46e5;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
-<body>
-
-    <!-- Top Header -->
-    <header class="top-header">
-        <div class="container">
-            <a href="#" class="logo">Tools Wonder</a>
-            <nav class="main-nav" id="mainNav">
-                <ul>
-                    <li><a href="#" class="active">Home</a></li>
-                    <li><a href="#tools-section-anchor">Tools</a></li>
-                    <li><a href="#footer-contact">Contact</a></li>
-                </ul>
-                <div class="header-contact-email">
-                    Contact: <a href="mailto:plazead@gmail.com">plazead@gmail.com</a>
+<body class="bg-white font-sans text-gray-800">
+    <!-- Floating CTA Button -->
+    <a href="https://payhip.com/b/yLYxv" id="floatingCta" class="floating-cta payhip-buy-button" data-theme="green" data-product="yLYxv">
+      <i class="fas fa-book"></i> Buy Now
+    </a>
+    
+    <!-- Hero Section -->
+    <div class="gradient-bg py-12 px-4">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="dragon-icon mx-auto">
+                <i class="fas fa-dragon"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">The Empyrean #3</h1>
+            <p class="text-xl text-gray-600 mb-8">by <span itemprop="author">Rebecca Yarros</span></p>
+            <div class="flex justify-center items-center mb-6">
+                <div class="flex text-yellow-400 mr-4">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
                 </div>
-            </nav>
-            <span class="desktop-contact-email">Contact: plazead@gmail.com</span>
-            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle navigation" aria-expanded="false">
-                ☰ <!-- Hamburger Icon -->
-            </button>
+                <span class="text-gray-700">4.9/5 from 128 reviews</span>
+            </div>
+            <a href="https://payhip.com/b/yLYxv" class="payhip-buy-button inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg" data-theme="green" data-product="yLYxv">Buy Now for $9.99</a>
+            <p class="text-sm text-gray-600 mt-2">Instant digital download - EPUB, PDF & MOBI formats</p>
         </div>
-    </header>
+    </div>
 
-    <main>
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="container">
-                <h1>Your Daily Tools, All in One Place</h1>
-                <p class="subheadline">Convert, calculate, compress, and simplify your everyday tasks — fast and free.</p>
-                <a href="#tools-section-anchor" class="cta-button">Explore Tools</a>
-                <div class="hero-illustrations">
-                    <div class="hero-illustration-item">
-                        <span class="icon-placeholder">🖼️</span> <!-- Placeholder: Image Icon -->
-                        <span>Image Tools</span>
+    <!-- Main Content -->
+    <div class="max-w-4xl mx-auto px-4 py-12">
+        <!-- Book Description Section -->
+        <article class="prose prose-lg max-w-none" itemprop="description">
+            <div class="mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-6">About The Empyrean #3</h2>
+                <p>In this installment of <strong>Rebecca Yarros'</strong> acclaimed <strong>The Empyrean series</strong>, readers are plunged deeper into a world where <strong>dragons rule the skies</strong> and their riders navigate a complex web of <strong>political intrigue, ancient prophecies, and personal transformation</strong>.</p>
+                
+                <!-- Ad Code 1 -->
+                <script>
+                    (function(ksv){ 
+                        var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; 
+                        s.settings = ksv || {}; 
+                        s.src = "\/\/complete-drink.com\/buXjV.srdEGmlQ0-YjWOc-\/dedm\/9duXZDUulZk\/P\/T-Yc0bMaDzA\/xEOGD\/ILtnNkjhQ\/wnMYDsEa4SMCwA"; 
+                        s.async = true; 
+                        s.referrerPolicy = 'no-referrer-when-downgrade'; 
+                        l.parentNode.insertBefore(s, l); 
+                    })({})
+                </script>
+                
+                <p>This <strong>epic fantasy novel</strong> continues the saga with:</p>
+                <ul class="list-disc pl-6 mb-6">
+                    <li>Breathtaking aerial combat sequences featuring majestic dragons</li>
+                    <li>Deepening character relationships and surprising alliances</li>
+                    <li>Expansion of the series' intricate magic system and dragon lore</li>
+                    <li>A rebellion that threatens to reshape the world order</li>
+                    <li>The protagonist's struggle with destiny versus free will</li>
+                </ul>
+            </div>
+
+            <div class="flex justify-center my-10">
+                <a href="https://payhip.com/b/yLYxv" class="payhip-buy-button inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg" data-theme="green" data-product="yLYxv">Get Your Digital Copy Now</a>
+            </div>
+
+            <!-- Key Features -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 my-12">
+                <div class="text-center p-6 rounded-lg bg-gray-50">
+                    <div class="feature-icon">
+                        <i class="fas fa-dragon"></i>
                     </div>
-                    <div class="hero-illustration-item">
-                        <span class="icon-placeholder">📄</span> <!-- Placeholder: Document Icon -->
-                        <span>Document Utilities</span>
+                    <h3 class="text-xl font-semibold mb-2">Dragon Lore</h3>
+                    <p class="text-gray-600">Explore the deep bond between riders and their dragons with expanded lore and new dragon breeds.</p>
+                </div>
+                <div class="text-center p-6 rounded-lg bg-gray-50">
+                    <div class="feature-icon">
+                        <i class="fas fa-fist-raised"></i>
                     </div>
-                    <div class="hero-illustration-item">
-                        <span class="icon-placeholder">💻</span> <!-- Placeholder: Code Icon -->
-                        <span>Developer Aids</span>
+                    <h3 class="text-xl font-semibold mb-2">Epic Battles</h3>
+                    <p class="text-gray-600">Experience heart-pounding aerial combat sequences that will leave you breathless.</p>
+                </div>
+                <div class="text-center p-6 rounded-lg bg-gray-50">
+                    <div class="feature-icon">
+                        <i class="fas fa-book-open"></i>
                     </div>
-                    <div class="hero-illustration-item">
-                        <span class="icon-placeholder">🎨</span> <!-- Placeholder: Video Icon -->
-                        <span>Color Helpers</span>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Rich Storytelling</h3>
+                    <p class="text-gray-600">Immerse yourself in a world of political intrigue, ancient secrets, and personal transformation.</p>
                 </div>
             </div>
-        </section>
 
-        <!-- Search Bar -->
-        <section class="search-section">
-            <div class="container">
-                <div class="search-bar-container">
-                     <span class="search-icon">🔍</span> <!-- Placeholder: Search Icon -->
-                    <input type="search" id="toolSearch" placeholder="Search a tool (e.g., 'Image Converter', 'PDF')...">
+            <!-- Ad Code 2 -->
+            <script>
+                (function(ksv){ 
+                    var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; 
+                    s.settings = ksv || {}; 
+                    s.src = "\/\/complete-drink.com\/buXjV.srdEGmlQ0-YjWOc-\/dedm\/9duXZDUulZk\/P\/T-Yc0bMaDzA\/xEOGD\/ILtnNkjhQ\/wnMYDsEa4SMCwA"; 
+                    s.async = true; 
+                    s.referrerPolicy = 'no-referrer-when-downgrade'; 
+                    l.parentNode.insertBefore(s, l); 
+                })({})
+            </script>
+
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Key Themes</h2>
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">The Power of Choice</h3>
+            <p>The central theme explores whether destiny is predetermined or if individuals can forge their own paths. This philosophical question plays out through:</p>
+            <ul class="list-disc pl-6 mb-6">
+                <li>The protagonist's evolving relationship with their dragon</li>
+                <li>Critical decisions that affect the rebellion's outcome</li>
+                <li>The revelation of ancient prophecies and their interpretations</li>
+            </ul>
+
+            <h3 class="text-xl font-semibold text-gray-800 mb-3">The Nature of Power</h3>
+            <p>Yarros examines different forms of power throughout the narrative:</p>
+            <ul class="list-disc pl-6 mb-6">
+                <li>The raw power of dragons and their abilities</li>
+                <li>Political power within the rider hierarchy</li>
+                <li>The power of knowledge and ancient secrets</li>
+                <li>Personal power gained through self-discovery</li>
+            </ul>
+
+            <div class="flex justify-center my-10">
+                <a href="https://payhip.com/b/yLYxv" class="payhip-buy-button inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg" data-theme="green" data-product="yLYxv">Start Reading Today</a>
+            </div>
+
+            <!-- Sample Content Section -->
+            <div class="bg-gray-50 rounded-lg p-8 my-8">
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Excerpt</h3>
+                <div class="text-gray-700">
+                    <p>The storm clouds gathered with unnatural speed, swirling above the mountain peaks like ink dropped in water. I tightened my grip on the reins as the first drops of rain struck my face—cold and sharp as daggers.</p>
+                    <p>"Easy, girl," I murmured, feeling the powerful muscles tense beneath me. The scales shimmered with latent energy, the dark patterns along the wings pulsing in time with the gathering storm.</p>
+                    <p>This wasn't just any storm. This was <em>our</em> storm.</p>
+                    <p>The rebellion leaders had warned me about this moment. "When the storm rises," they'd said, "the fate of the Empyrean will be decided." But no one had told me the cost...</p>
+                </div>
+                <div class="mt-6 text-center">
+                    <a href="https://payhip.com/b/yLYxv" class="payhip-buy-button inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg" data-theme="green" data-product="yLYxv">Continue Reading - Buy Now</a>
                 </div>
             </div>
-        </section>
 
-        <div id="tools-section-anchor"> <!-- Anchor for "Tools" nav link -->
-        <!-- Image Tools Section -->
-        <section class="tool-category-section" id="image-tools">
-            <div class="container">
-                <h2 class="section-heading">🖼️ Image Tools</h2>
-                <p class="section-subheading">Resize, convert, compress, and edit your images with ease.</p>
-                <div class="tools-grid">
-                    <!-- Tool Card Example -->
-                    <div class="tool-card" data-tool-name="Image Converter Image Tools">
-                        <span class="tool-icon">🔄</span> <!-- Placeholder icon -->
-                        <h3>Image Converter</h3>
-                        <p>Convert images to various formats (JPG, PNG, WEBP, etc.).</p>
-                        <a href="image-converter.html" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Image Compressor Image Tools">
-                        <span class="tool-icon">⚙️</span>
-                        <h3>Image Compressor</h3>
-                        <p>Reduce image file size without losing quality.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Image Resizer Image Tools">
-                        <span class="tool-icon">📏</span>
-                        <h3>Image Resizer</h3>
-                        <p>Change image dimensions to specific pixel sizes.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Image Cropper Image Tools">
-                        <span class="tool-icon">✂️</span>
-                        <h3>Image Cropper</h3>
-                        <p>Crop images to your desired aspect ratio or selection.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Image to Text OCR Image Tools">
-                        <span class="tool-icon">📄➡️✍️</span>
-                        <h3>Image to Text (OCR)</h3>
-                        <p>Extract text from images accurately.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Image Rotator Flipper Image Tools">
-                        <span class="tool-icon">↪️</span>
-                        <h3>Image Rotator/Flipper</h3>
-                        <p>Rotate or flip images horizontally or vertically.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
+            <!-- Ad Code 3 -->
+            <script>
+                (function(ksv){ 
+                    var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; 
+                    s.settings = ksv || {}; 
+                    s.src = "\/\/complete-drink.com\/buXjV.srdEGmlQ0-YjWOc-\/dedm\/9duXJDUulZk\/P\/T-Yc0bMaDzA\/xEOGD\/ILtnNkjhQ\/wnMYDsEa4SMCwA"; 
+                    s.async = true; 
+                    s.referrerPolicy = 'no-referrer-when-downgrade'; 
+                    l.parentNode.insertBefore(s, l); 
+                })({})
+            </script>
+
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Why Fantasy Readers Love This Series</h2>
+            <p>This book delivers everything fans of <strong>epic fantasy</strong> and <strong>dragon novels</strong> crave:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">World-Building</h3>
+                    <p>The expansion of the Empyrean universe in this installment introduces:</p>
+                    <ul class="list-disc pl-6">
+                        <li>New dragon breeds with unique abilities</li>
+                        <li>Previously unexplored regions of the world</li>
+                        <li>Deeper exploration of dragon-rider bonds</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">Character Development</h3>
+                    <p>Readers witness significant growth in:</p>
+                    <ul class="list-disc pl-6">
+                        <li>The protagonist's mastery of their abilities</li>
+                        <li>Supporting characters stepping into new roles</li>
+                        <li>Complex relationships between riders and dragons</li>
+                    </ul>
                 </div>
             </div>
-        </section>
 
-        <!-- Document Tools Section -->
-        <section class="tool-category-section" id="document-tools">
-            <div class="container">
-                <h2 class="section-heading">📄 Document Tools</h2>
-                <p class="section-subheading">Manage your PDF and other documents efficiently.</p>
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-name="PDF to Word Word to PDF Document Tools">
-                        <span class="tool-icon">⇄</span>
-                        <h3>PDF to Word / Word to PDF</h3>
-                        <p>Convert PDFs to editable Word files and vice-versa.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="PDF Compressor Document Tools">
-                        <span class="tool-icon">⚙️</span>
-                        <h3>PDF Compressor</h3>
-                        <p>Reduce PDF file size while maintaining quality.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="PDF Merger Splitter Document Tools">
-                        <span class="tool-icon">🔗✂️</span>
-                        <h3>PDF Merger & Splitter</h3>
-                        <p>Combine multiple PDFs or split one into several.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Document Converter Document Tools">
-                        <span class="tool-icon">🔄</span>
-                        <h3>Document Converter</h3>
-                        <p>Convert various document formats (DOCX, ODT, TXT).</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="PDF Editor Document Tools">
-                        <span class="tool-icon">✏️</span>
-                        <h3>PDF Editor</h3>
-                        <p>Annotate, add text, shapes, and more to PDFs.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="PDF Lock Unlock Document Tools">
-                        <span class="tool-icon">🔒🔓</span>
-                        <h3>PDF Lock/Unlock</h3>
-                        <p>Secure PDFs with passwords or remove restrictions.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="eSign PDF Document Tools">
-                        <span class="tool-icon">✍️</span>
-                        <h3>eSign PDF</h3>
-                        <p>Sign PDF documents digitally with ease.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
+            <div class="flex justify-center my-10">
+                <a href="https://payhip.com/b/yLYxv" class="payhip-buy-button inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg text-lg" data-theme="green" data-product="yLYxv">Join Thousands of Satisfied Readers</a>
+            </div>
+
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">Frequently Asked Questions</h2>
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Do I need to read the previous books first?</h3>
+                <p>While this book can be enjoyed as a standalone novel, we recommend starting with <strong>The Empyrean #1</strong> for full context and character development.</p>
+            </div>
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">What formats are available?</h3>
+                <p>The digital edition is available in <strong>EPUB, PDF, and MOBI</strong> formats, compatible with all major e-readers.</p>
+            </div>
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">Is there a paperback version?</h3>
+                <p>The paperback edition will be released on <strong>September 15, 2023</strong>. Pre-orders are available through major retailers.</p>
+            </div>
+        </article>
+
+        <!-- Testimonials Section -->
+        <div class="section-divider my-16"></div>
+
+        <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">What Readers Are Saying</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="testimonial-card p-6">
+                <div class="flex items-center mb-4">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Sarah J." class="testimonial-img mr-4" loading="lazy">
+                    <div>
+                        <p class="font-bold text-gray-800">Sarah J.</p>
+                        <p class="text-sm text-gray-500">Fantasy Book Blogger</p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Calculator Tools Section -->
-        <section class="tool-category-section" id="calculator-tools">
-            <div class="container">
-                <h2 class="section-heading">🧮 Calculator Tools</h2>
-                <p class="section-subheading">Perform various calculations for finance, health, and more.</p>
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-name="Scientific Calculator Calculator Tools">
-                        <span class="tool-icon">🧪</span>
-                        <h3>Scientific Calculator</h3>
-                        <p>Advanced calculator for complex math functions.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Age Calculator Calculator Tools">
-                        <span class="tool-icon">🎂</span>
-                        <h3>Age Calculator</h3>
-                        <p>Calculate age based on date of birth.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="BMI Calculator Calculator Tools">
-                        <span class="tool-icon">⚖️</span>
-                        <h3>BMI Calculator</h3>
-                        <p>Calculate your Body Mass Index quickly.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Loan EMI Calculator Calculator Tools">
-                        <span class="tool-icon">💰</span>
-                        <h3>Loan EMI Calculator</h3>
-                        <p>Estimate your Equated Monthly Installments.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="GST Calculator Calculator Tools">
-                        <span class="tool-icon">🧾</span>
-                        <h3>GST Calculator</h3>
-                        <p>Calculate Goods and Services Tax amounts.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Currency Converter Calculator Tools">
-                        <span class="tool-icon">💱</span>
-                        <h3>Currency Converter</h3>
-                        <p>Convert between different world currencies.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
+                <p class="text-gray-700 italic mb-4">"Absolutely riveting from page one! The dragon sequences alone are worth the price—I've never read aerial combat described with such breathtaking intensity."</p>
+                <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
                 </div>
             </div>
-        </section>
-
-        <!-- Text Tools Section -->
-        <section class="tool-category-section" id="text-tools">
-            <div class="container">
-                <h2 class="section-heading">🔤 Text Tools</h2>
-                <p class="section-subheading">Manipulate and analyze text for various purposes.</p>
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-name="Text Case Converter Text Tools">
-                        <span class="tool-icon">Aa</span>
-                        <h3>Text Case Converter</h3>
-                        <p>Change text to UPPERCASE, lowercase, Title Case, etc.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Word Character Counter Text Tools">
-                        <span class="tool-icon">📊</span>
-                        <h3>Word & Character Counter</h3>
-                        <p>Count words, characters, sentences, and paragraphs.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Remove Duplicate Lines Text Tools">
-                        <span class="tool-icon">✨</span>
-                        <h3>Remove Duplicate Lines</h3>
-                        <p>Easily remove identical lines from your text.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Text Sorter Text Tools">
-                        <span class="tool-icon">⇅</span>
-                        <h3>Text Sorter</h3>
-                        <p>Sort lines of text alphabetically or numerically.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Text Reverser Text Tools">
-                        <span class="tool-icon">↩️</span>
-                        <h3>Text Reverser</h3>
-                        <p>Reverse text, words, or lines easily.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Text Encryptor Decryptor Text Tools">
-                        <span class="tool-icon">🛡️</span>
-                        <h3>Text Encryptor/Decryptor</h3>
-                        <p>Securely encrypt or decrypt text messages.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
+            <div class="testimonial-card p-6">
+                <div class="flex items-center mb-4">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael T." class="testimonial-img mr-4" loading="lazy">
+                    <div>
+                        <p class="font-bold text-gray-800">Michael T.</p>
+                        <p class="text-sm text-gray-500">Dragon Lore Enthusiast</p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Web/Developer Tools Section -->
-        <section class="tool-category-section" id="web-dev-tools">
-            <div class="container">
-                <h2 class="section-heading">🌐 Web/Developer Tools</h2>
-                <p class="section-subheading">Essential utilities for web developers and programmers.</p>
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-name="HTML CSS JS Minifier Web Developer Tools">
-                        <span class="tool-icon"></></span>
-                        <h3>HTML/CSS/JS Minifier</h3>
-                        <p>Minify your code to reduce file size and improve speed.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="JSON Formatter Validator Web Developer Tools">
-                        <span class="tool-icon">{ }</span>
-                        <h3>JSON Formatter & Validator</h3>
-                        <p>Format, validate, and beautify JSON data.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Base64 Encoder Decoder Web Developer Tools">
-                        <span class="tool-icon">🔑</span>
-                        <h3>Base64 Encoder/Decoder</h3>
-                        <p>Encode to or decode from Base64 format.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="URL Encoder Decoder Web Developer Tools">
-                        <span class="tool-icon">🔗</span>
-                        <h3>URL Encoder/Decoder</h3>
-                        <p>Encode or decode URLs for safe transmission.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Color Picker Converter Web Developer Tools">
-                        <span class="tool-icon">🎨</span>
-                        <h3>Color Picker & Converter</h3>
-                        <p>Pick colors and convert between HEX, RGB, HSL.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Regex Tester Web Developer Tools">
-                        <span class="tool-icon">.*?</span>
-                        <h3>Regex Tester</h3>
-                        <p>Test and debug your regular expressions online.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
+                <p class="text-gray-700 italic mb-4">"The dragons, the romance, the suspense—phenomenal. Yarros has created a world so vivid I dream about it. This is her best work yet."</p>
+                <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
                 </div>
             </div>
-        </section>
-
-        <!-- Color Tools Section -->
-        <section class="tool-category-section" id="color-tools">
-            <div class="container">
-                <h2 class="section-heading">🎨 Color Tools</h2>
-                <p class="section-subheading">Explore, generate, and analyze colors for your design projects.</p>
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-name="Color Picker from Image Color Tools">
-                        <span class="tool-icon">🖌️🖼️</span>
-                        <h3>Color Picker from Image</h3>
-                        <p>Extract dominant colors or pick specific colors from an image.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="HEX to RGB Converter Color Tools">
-                        <span class="tool-icon">#⇄RGB</span>
-                        <h3>HEX to RGB Converter</h3>
-                        <p>Convert HEX color codes to RGB values and vice-versa.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Gradient Generator Color Tools">
-                        <span class="tool-icon">🌈</span>
-                        <h3>Gradient Generator</h3>
-                        <p>Create beautiful CSS color gradients easily.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Contrast Checker Color Tools">
-                        <span class="tool-icon">🌗</span>
-                        <h3>Contrast Checker</h3>
-                        <p>Check color contrast ratios for accessibility (WCAG).</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Palette Generator Color Tools">
-                        <span class="tool-icon">🎨✨</span>
-                        <h3>Palette Generator</h3>
-                        <p>Generate harmonious color palettes for your designs.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Color Blindness Simulator Color Tools">
-                        <span class="tool-icon">👁️</span>
-                        <h3>Color Blindness Simulator</h3>
-                        <p>Simulate how colors appear to people with color blindness.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
+            <div class="testimonial-card p-6">
+                <div class="flex items-center mb-4">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Elena R." class="testimonial-img mr-4" loading="lazy">
+                    <div>
+                        <p class="font-bold text-gray-800">Elena R.</p>
+                        <p class="text-sm text-gray-500">Bookstagrammer</p>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- SEO & Marketing Tools Section -->
-        <section class="tool-category-section" id="seo-marketing-tools">
-            <div class="container">
-                <h2 class="section-heading">🌍 SEO & Marketing Tools</h2>
-                <p class="section-subheading">Optimize your content and analyze marketing data.</p>
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-name="Keyword Density Checker SEO Marketing Tools">
-                        <span class="tool-icon">📈</span>
-                        <h3>Keyword Density Checker</h3>
-                        <p>Analyze keyword frequency in your text content.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Meta Tag Analyzer SEO Marketing Tools">
-                        <span class="tool-icon">📊</span>
-                        <h3>Meta Tag Analyzer</h3>
-                        <p>Check and analyze meta tags of a webpage.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Word Counter SEO Marketing Tools"> <!-- Already in Text tools, but can be here too -->
-                        <span class="tool-icon">#️⃣</span>
-                        <h3>Word Counter</h3>
-                        <p>Count words in your text for SEO content length.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="Word Comma Seperator SEO Marketing Tools">
-                        <span class="tool-icon">📝,</span>
-                        <h3>Word Comma Seperator</h3>
-                        <p>Separate words or phrases with commas for tags.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
+                <p class="text-gray-700 italic mb-4">"Rebecca Yarros has redefined epic fantasy for a new generation. Complex characters, pulse-pounding action, and dragons that feel truly alive."</p>
+                <div class="flex text-yellow-400">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Utility Tools Section -->
-        <section class="tool-category-section" id="utility-tools">
-            <div class="container">
-                <h2 class="section-heading">🛠️ Utility Tools</h2>
-                <p class="section-subheading">A collection of handy utilities for everyday digital tasks and AI-powered generators.</p>
-                <div class="tools-grid">
-                    <div class="tool-card" data-tool-name="QR Code Generator Scanner Utility Tools">
-                        <span class="tool-icon">📱</span>
-                        <h3>QR Code Generator & Scanner</h3>
-                        <p>Create or scan QR codes for URLs, text, and more.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Barcode Generator Utility Tools">
-                        <span class="tool-icon">║█║</span>
-                        <h3>Barcode Generator</h3>
-                        <p>Generate various types of barcodes easily.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="UUID Generator Utility Tools">
-                        <span class="tool-icon">🆔</span>
-                        <h3>UUID Generator</h3>
-                        <p>Generate universally unique identifiers (UUIDs).</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Unit Converter Utility Tools">
-                        <span class="tool-icon">⚖️</span>
-                        <h3>Unit Converter</h3>
-                        <p>Convert various units (length, weight, temp, etc.).</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Time Zone Converter Utility Tools">
-                        <span class="tool-icon">🕒</span>
-                        <h3>Time Zone Converter</h3>
-                        <p>Convert times between different time zones.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                    <div class="tool-card" data-tool-name="Random Number Password Generator Utility Tools">
-                        <span class="tool-icon">🎲🔑</span>
-                        <h3>Random Number/Password Generator</h3>
-                        <p>Generate random numbers or strong passwords.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="All Countries Mobile Number Generator with receive sms viewer Utility Tools">
-                        <span class="tool-icon">📱💬</span>
-                        <h3>Mobile Number Generator & SMS Viewer</h3>
-                        <p>Generate numbers for testing, view received SMS.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="Email generator with receive email viewer Utility Tools">
-                        <span class="tool-icon">✉️📥</span>
-                        <h3>Temp Email Generator & Viewer</h3>
-                        <p>Create temporary email addresses, view incoming mail.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="AI long short form video generator Utility Tools">
-                        <span class="tool-icon">🤖🎬</span>
-                        <h3>AI Video Generator (Short/Long)</h3>
-                        <p>Create short or long-form videos using AI.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="AI Background music generator Utility Tools">
-                        <span class="tool-icon">🤖🎶</span>
-                        <h3>AI Background Music Generator</h3>
-                        <p>Generate royalty-free background music with AI.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="AI joiner transitions adjustment generator Utility Tools">
-                        <span class="tool-icon">🤖🎞️</span>
-                        <h3>AI Video Editor (Joiner, Transitions)</h3>
-                        <p>AI-powered video joining, transitions, and adjustments.</p>
-                        <a href="#" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="AI voice over generator Utility Tools">
-                        <span class="tool-icon">🤖🎤</span>
-                        <h3>AI Voice Over Generator</h3>
-                        <p>Create natural-sounding voice overs with AI.</p>
-                        <a href="ai-voiceover-generator.html" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="AI image generator Utility Tools">
-                        <span class="tool-icon">🤖🖼️</span>
-                        <h3>AI Image Generator</h3>
-                        <p>Generate unique images from text prompts using AI.</p>
-                        <a href="ai-image-generator.html" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="AI valid SMTP email server generator inbox email sender Utility Tools">
-                        <span class="tool-icon">🤖📧</span>
-                        <h3>AI SMTP Server & Sender</h3>
-                        <p>Generate valid SMTP server details & send emails.</p>
-                        <a href="ai-valid-smtp-email-server-generator-and-inbox-email-sender.html" class="btn-use-tool">Use Tool</a>
-                    </div>
-                     <div class="tool-card" data-tool-name="AI Email validator scraper collector Utility Tools">
-                        <span class="tool-icon">🤖✔️</span>
-                        <h3>AI Email Validator & Collector</h3>
-                        <p>Validate, scrape, and collect email addresses with AI.</p>
-                        <a href="ai-email-validator-scraper-and-collector.html" class="btn-use-tool">Use Tool</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        </div> <!-- End of tools-section-anchor -->
-    </main>
+        <!-- Ad Code 4 -->
+        <script>
+            (function(ksv){ 
+                var d = document, s = d.createElement('script'), l = d.scripts[d.scripts.length - 1]; 
+                s.settings = ksv || {}; 
+                s.src = "\/\/complete-drink.com\/buXjV.srdEGmlQ0-YjWOc-\/dedm\/9duXJDUulZk\/P\/T-Yc0bMaDzA\/xEOGD\/ILtnNkjhQ\/wnMYDsEa4SMCwA"; 
+                s.async = true; 
+                s.referrerPolicy = 'no-referrer-when-downgrade'; 
+                l.parentNode.insertBefore(s, l); 
+            })({})
+        </script>
+
+        <!-- Final CTA -->
+        <div class="text-center mt-16">
+            <h3 class="text-2xl font-bold text-gray-900 mb-4">Ready to Experience This Fantasy Adventure?</h3>
+            <p class="text-lg text-gray-600 mb-8">Join thousands of readers who've been captivated by this <strong>epic fantasy adventure</strong> featuring <strong>dragons, rebellion, and breathtaking action</strong>.</p>
+            <a href="https://payhip.com/b/yLYxv" class="payhip-buy-button inline-block bg-green-600 hover:bg-green-700 text-white font-bold py-4 px-12 rounded-lg text-xl" data-theme="green" data-product="yLYxv">Buy Now - Only $9.99</a>
+        </div>
+    </div>
 
     <!-- Footer -->
-    <footer class="main-footer" id="footer-contact">
-        <div class="container">
-            <div class="logo">Tools Wonder</div>
-            <p class="footer-tagline">Simplifying your digital life.</p>
-            <div class="footer-contact-email">
-                Contact: <a href="mailto:plazead@gmail.com">plazead@gmail.com</a>
+    <footer class="bg-gray-50 py-8 px-4 text-center text-gray-500 text-sm">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-center space-x-6 mb-6">
+                <a href="https://www.instagram.com/mark9joe" class="text-gray-500 hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-instagram text-xl"></i>
+                </a>
+                <a href="https://www.youtube.com/@InfiniteHustleNetwork" class="text-gray-500 hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-youtube text-xl"></i>
+                </a>
+                <a href="https://x.com/plazead" class="text-gray-500 hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-twitter text-xl"></i>
+                </a>
+                <a href="https://www.facebook.com/groups/easyketoliving" class="text-gray-500 hover:text-gray-700" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook text-xl"></i>
+                </a>
             </div>
-            <div class="footer-quick-links">
-                <ul>
-                    <li><a href="#">Privacy Policy</a></li>
-                    <li><a href="#">Terms of Use</a></li>
-                </ul>
+
+            <p class="mt-6">© 2025 Respirework. All rights reserved.</p>
+            <div class="mt-4">
+                <a href="https://www.respirework.com/privacy.html" class="text-blue-600 hover:underline">Privacy Policy</a> | 
+                <a href="https://www.respirework.com/terms.html" class="text-blue-600 hover:underline">Terms of Service</a>
             </div>
         </div>
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const mainNav = document.getElementById('mainNav');
-
-        mobileMenuToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-            const isExpanded = mainNav.classList.contains('active');
-            mobileMenuToggle.setAttribute('aria-expanded', isExpanded);
-            mobileMenuToggle.innerHTML = isExpanded ? '×' : '☰'; // Change icon to X when open
+        // Show floating CTA after scrolling
+        window.addEventListener('scroll', function() {
+            const floatingCta = document.getElementById('floatingCta');
+            if (window.scrollY > 300) {
+                floatingCta.classList.add('visible');
+            } else {
+                floatingCta.classList.remove('visible');
+            }
         });
 
-        // Smooth Scroll for Nav Links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                    // Close mobile menu if open
-                    if (mainNav.classList.contains('active') && window.innerWidth < 992) {
-                        mainNav.classList.remove('active');
-                        mobileMenuToggle.setAttribute('aria-expanded', 'false');
-                        mobileMenuToggle.innerHTML = '☰';
-                    }
-                }
-            });
+        // Initialize Payhip button
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.Payhip && window.Payhip.initButtons) {
+                window.Payhip.initButtons();
+            }
         });
-        
-        // Live Search Filter
-        const searchInput = document.getElementById('toolSearch');
-        const toolCards = document.querySelectorAll('.tool-card');
-
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase().trim();
-
-            toolCards.forEach(card => {
-                const toolName = card.dataset.toolName.toLowerCase(); // Use data-tool-name for searching
-                const toolDescription = card.querySelector('p').textContent.toLowerCase();
-                
-                if (toolName.includes(searchTerm) || toolDescription.includes(searchTerm)) {
-                    card.style.display = ''; // Show card
-                    // Ensure the parent section is visible if a match is found
-                    let parentSection = card.closest('.tool-category-section');
-                    if (parentSection) parentSection.style.display = ''; 
-                } else {
-                    card.style.display = 'none'; // Hide card
-                }
-            });
-
-            // Optional: Hide entire sections if no tools within them match
-            document.querySelectorAll('.tool-category-section').forEach(section => {
-                const visibleCardsInSection = section.querySelectorAll('.tool-card[style*="display: block"], .tool-card:not([style*="display: none"])');
-                 // Check if search term is empty
-                if (searchTerm === "") {
-                    section.style.display = ''; // Show all sections if search is empty
-                    toolCards.forEach(card => card.style.display = ''); // Show all cards
-                } else {
-                     if (visibleCardsInSection.length === 0) {
-                        section.style.display = 'none';
-                    } else {
-                        section.style.display = '';
-                    }
-                }
-            });
-        });
-
     </script>
-
-</body>
+<p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px;position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">Made with <img src="https://enzostvs-deepsite.hf.space/logo.svg" alt="DeepSite Logo" style="width: 16px; height: 16px; vertical-align: middle;display:inline-block;margin-right:3px;filter:brightness(0) invert(1);"><a href="https://enzostvs-deepsite.hf.space" style="color: #fff;text-decoration: underline;" target="_blank" >DeepSite</a> - 🧬 <a href="https://enzostvs-deepsite.hf.space?remix=mark9joe/update-5" style="color: #fff;text-decoration: underline;" target="_blank" >Remix</a></p></body>
 </html>
